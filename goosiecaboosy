@@ -51,47 +51,25 @@
 <body>
 
   <div id="pot">
-    <video id="running-goose" autoplay loop muted playsinline preload="auto">
+    <video id="running-goose" autoplay loop muted playsinline>
       <source src="running_goose.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
 
-<script>
-  const video = document.getElementById('running-goose');
-  
-  // AGGRESSIVE video play for OBS
-  function forcePlay() {
-    video.muted = true;
-    video.volume = 0;
-    video.play().then(() => {
-      console.log('Video playing!');
-    }).catch(e => {
-      console.log('Retrying play...', e);
-      setTimeout(forcePlay, 100);
+  <script>
+    // Force video to play (needed for OBS browser sources)
+    window.addEventListener('load', function() {
+      var video = document.getElementById('running-goose');
+      video.play();
     });
-  }
-  
-  // Try immediately
-  forcePlay();
-  
-  // Try after short delays
-  setTimeout(forcePlay, 100);
-  setTimeout(forcePlay, 500);
-  setTimeout(forcePlay, 1000);
-  setTimeout(forcePlay, 2000);
-  
-  // Keep trying if paused
-  setInterval(() => {
-    if (video.paused) {
-      forcePlay();
-    }
-  }, 1000);
-  
-  // Try when video loads
-  video.addEventListener('loadeddata', forcePlay);
-  video.addEventListener('canplay', forcePlay);
-</script>
+    
+    // Also try playing on any interaction
+    document.addEventListener('click', function() {
+      var video = document.getElementById('running-goose');
+      video.play();
+    });
+  </script>
 
 </body>
 </html>

@@ -1,60 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>goosiecaboosy</title>
-<style>
-  body {
-    position: relative;
-    min-height: 100vh;
-    margin: 0;
-    overflow-x: hidden;
-    background-color: #000000;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goosiecaboosy</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+    }
 
-  #pot {
-    bottom: 15%;
-    position: absolute;
-    width: 300px; /* Set a fixed width for the container */
-    
-    animation-name: run;
-    animation-duration: 8s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-  }
+    body {
+      position: relative;
+      isolation: isolate;
+    }
 
-  #running-goose {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+    /* The moving container */
+    #pot {
+      position: absolute;
+      left: 0;
+      bottom: 15%;
+      width: 300px;
+      will-change: transform;
+      transform: translateX(0px);
+      pointer-events: none;
+    }
 
-  @keyframes run {
-    0% {
-      left: 100%;
-      transform: rotateY(0deg);
+    #running-goose {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* flip is applied via JS with scaleX() */
+      transform-origin: 50% 50%;
     }
-    50% { 
-      left: -300px;
-      transform: rotateY(0deg); 
-    }
-    50.1% { 
-      left: -300px;
-      transform: rotateY(180deg); 
-    }
-    100% {
-      left: 100%;    
-      transform: rotateY(180deg);
-    }
-  }
-</style>
+  </style>
 </head>
 <body>
-
   <div id="pot">
-    <video id="running-goose" autoplay loop muted>
-      <source src="running_goose.mp4" type="video/mp4">
+    <video id="running-goose" autoplay loop muted playsinline preload="auto">
+      <source src="running_goose.mp4" type="video/mp4" />
     </video>
   </div>
 
+  <script>
+    (function () {
+      const pot = document.getElementById('pot');
+      const video = document.getElementById('running-goose');
+
+      // Speed in pixels / second
+      const SPEED = 260;
+
+      let stageW = 0;
+      let potW = 300;
+      let leftBound = -potW;
+      let rightBound = 0;
+
+      // Start fully off-screen to the right, moving left.
+      let x = 0;
+      let dir = -1; // -1 = left, +1 = right
+      let lastT = null;
+
+      function measure() {
+        // In OBS, documentElement/body sizes are often more reliable than window.innerWidth early on.
+        const docRect = document.documentElement.getBoundingClientRect();
+        const bodyRect = document.body.getBoundingClientRect();
+
+        stageW = Math.max(1, Math.round(bodyRect.width || docRect.width || window.innerWidth || 1));
+        potW = Math.max(1, Math.round(pot.getBoundingClientRect().width || 300));
+
+        leftBound = -potW;
+        rightBound = stageW;
+      }
+
+      function applyFacing() {
+        // Assumption (based on your earlier orientation fix):
+        // the MP4 naturally faces LEFT.
+        // Moving LEFT => normal (scaleX(1))
+        // Moving RIGHT => flipped (scaleX(-1))
+        video.style.transform = (dir === -1) ? 'scaleX(1)' : 'scaleX(-1)';
+      }
+
+      function applyPosition() {
+        pot.style.transform = `translateX(${x}px)`;
+      }
+
+      function step(t) {
+        if (lastT == null) lastT = t;
+        const dt = Math.min(0.05, (t - lastT) / 1000); // cap dt to avoid big jumps
+        lastT = t;
+
+        x += dir * SPEED * dt;
+
+        if (x <= leftBound) {
+          x = leftBound;
+          dir = 1;
+          applyFacing();
+        } else if (x >= rightBound) {
+          x = rightBound;
+          dir = -1;
+          applyFacing();
+        }
+
+        applyPosition();
+        requestAnimationFrame(step);
+      }
+
+      function initWhenSized() {
+        measure();
+
+        // If OBS/CEF reports 0 width for a moment, wait a frame and retry.
+        if (!stageW || stageW <= 1) {
+          requestAnimationFrame(initWhenSized);
+          return;
+        }
+
+        x = rightBound; // fully off-screen right
+        dir = -1;
+        applyFacing();
+        applyPosition();
+
+        // Try to force playback in OBS/CEF (muted autoplay should succeed).
+        try {
+          video.muted = true;
+          const p = video.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        } catch (_) {}
+
+        requestAnimationFrame(step);
+      }
+
+      // Re-measure if the browser source is resized.
+      const ro = new ResizeObserver(() => {
+        const prevStageW = stageW;
+        measure();
+
+        // Keep x within bounds after resize.
+        if (x > rightBound) x = rightBound;
+        if (x < leftBound) x = leftBound;
+
+        // If width was previously unknown, kick init again.
+        if ((prevStageW <= 1) && stageW > 1) {
+          x = rightBound;
+        }
+
+        applyPosition();
+      });
+      ro.observe(document.documentElement);
+
+      // If the video loads later and changes layout, re-measure.
+      video.addEventListener('loadeddata', () => {
+        measure();
+        leftBound = -potW;
+        rightBound = stageW;
+      });
+
+      // If OBS pauses/throttles when hidden, reset time delta when visible again.
+      document.addEventListener('visibilitychange', () => {
+        lastT = null;
+      });
+
+      initWhenSized();
+    })();
+  </script>
 </body>
 </html>

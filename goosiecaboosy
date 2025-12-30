@@ -14,37 +14,14 @@
   #pot {
     bottom: 15%;
     position: absolute;
-    width: 300px; /* Set a fixed width for the container */
-    
-    animation-name: run;
-    animation-duration: 8s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    width: 300px;
+    transition: none;
   }
 
   #running-goose {
     width: 100%;
     height: auto;
     display: block;
-  }
-
-  @keyframes run {
-    0% {
-      left: 100%;
-      transform: rotateY(0deg);
-    }
-    50% { 
-      left: -300px;
-      transform: rotateY(0deg); 
-    }
-    50.1% { 
-      left: -300px;
-      transform: rotateY(180deg); 
-    }
-    100% {
-      left: 100%;    
-      transform: rotateY(180deg);
-    }
   }
 </style>
 </head>
@@ -56,6 +33,51 @@
       Your browser does not support the video tag.
     </video>
   </div>
+
+  <script>
+    // JavaScript animation for better browser source compatibility
+    const goose = document.getElementById('pot');
+    let position = window.innerWidth;
+    let direction = -1; // -1 for left, 1 for right
+    let speed = 2; // pixels per frame
+    let isFlipped = false;
+    
+    function animate() {
+      // Update position
+      position += speed * direction;
+      
+      // Check boundaries and flip direction
+      if (position <= -300) {
+        direction = 1;
+        if (!isFlipped) {
+          goose.style.transform = 'rotateY(180deg)';
+          isFlipped = true;
+        }
+      } else if (position >= window.innerWidth) {
+        direction = -1;
+        if (isFlipped) {
+          goose.style.transform = 'rotateY(0deg)';
+          isFlipped = false;
+        }
+      }
+      
+      // Apply position
+      goose.style.left = position + 'px';
+      
+      // Continue animation
+      requestAnimationFrame(animate);
+    }
+    
+    // Start animation
+    animate();
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      if (position > window.innerWidth) {
+        position = window.innerWidth;
+      }
+    });
+  </script>
 
 </body>
 </html>

@@ -30,19 +30,19 @@
 
   @keyframes run {
     0% {
-      left: calc(100% - 300px);
+      left: 100%;
       transform: rotateY(0deg);
     }
     50% { 
-      left: 0;
+      left: -300px;
       transform: rotateY(0deg); 
     }
     50.1% { 
-      left: 0;
+      left: -300px;
       transform: rotateY(180deg); 
     }
     100% {
-      left: calc(100% - 300px);    
+      left: 100%;    
       transform: rotateY(180deg);
     }
   }

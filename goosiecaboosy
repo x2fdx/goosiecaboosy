@@ -22,7 +22,7 @@
     animation-iteration-count: infinite;
   }
 
-  #goose-video {
+  #running-goose {
     width: 100%;
     height: auto;
     display: block;
@@ -30,24 +30,20 @@
 
   @keyframes run {
     0% {
-      left: 0;
-      transform: rotateY(0deg);
-    }
-    45% {
       left: calc(100% - 300px);
       transform: rotateY(0deg);
     }
-    50% {
-      left: calc(100% - 300px);
-      transform: rotateY(180deg);
-    }
-    95% {
+    50% { 
       left: 0;
-      transform: rotateY(180deg);
+      transform: rotateY(0deg); 
+    }
+    50.1% { 
+      left: 0;
+      transform: rotateY(180deg); 
     }
     100% {
-      left: 0;
-      transform: rotateY(0deg);
+      left: calc(100% - 300px);    
+      transform: rotateY(180deg);
     }
   }
 </style>

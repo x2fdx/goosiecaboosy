@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>goosiecaboosy</title>
+<style>
+  body {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    background-color: #f0f0f0;
+  }
+  #pot {
+    bottom: 15%;
+    position: absolute;
+    width: 300px; 
+    
+    animation-name: run;
+    animation-duration: 8s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  #crab-video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  @keyframes run {
+    0% {
+      left: 0;
+      transform: rotateY(0deg);
+    }
+    48% {
+      transform: rotateY(0deg); 
+    }
+    50% { 
+      left: calc(100% - 300px);
+      transform: rotateY(180deg); 
+    }
+    98% {
+      transform: rotateY(180deg); 
+    }
+    100% {
+      left: 0;    
+      transform: rotateY(0deg);
+    }
+  }
+</style>
+</head>
+<body>
+  <div id="pot">
+    <video id="crab-video" autoplay loop muted>
+      <source src="crystal_crab.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</body>
+</html>

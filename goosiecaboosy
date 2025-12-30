@@ -10,48 +10,52 @@
     overflow-x: hidden;
     background-color: #f0f0f0;
   }
+
   #pot {
     bottom: 15%;
     position: absolute;
-    width: 300px; 
+    width: 300px; /* Set a fixed width for the container */
     
     animation-name: run;
     animation-duration: 8s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }
+
   #running-goose {
     width: 100%;
     height: auto;
     display: block;
   }
+
   @keyframes run {
     0% {
       left: 0;
       transform: rotateY(0deg);
     }
-    48% {
-      transform: rotateY(0deg); 
-    }
     50% { 
       left: calc(100% - 300px);
-      transform: rotateY(180deg); 
+      transform: rotateY(0deg); 
     }
-    98% {
+    50.1% { 
+      left: calc(100% - 300px);
       transform: rotateY(180deg); 
     }
     100% {
       left: 0;    
-      transform: rotateY(0deg);
+      transform: rotateY(180deg);
     }
   }
 </style>
 </head>
 <body>
+
   <div id="pot">
-    <video id="running_goose" autoplay loop muted>
+    <video id="running-goose" autoplay loop muted>
       <source src="running_goose.mp4" type="video/mp4">
+      Your browser does not support the video tag.
     </video>
   </div>
+
 </body>
 </html>

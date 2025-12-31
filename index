@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>running_goose</title>
+<title>running_goose.gif</title>
 <style>
   body {
     position: relative;
@@ -51,7 +51,7 @@
 <body>
 
   <div id="pot">
-    <img id="running-goose" src="running_goose.gif" alt="Running Goose">
+    <img id="running_goose" src="running_goose.gif" alt="Running Goose">
   </div>
 
 <script>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>goosiecaboosy</title>
+<title>Running Goose Animation - GitHub Pages Ready</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   body {
     position: relative;
@@ -49,14 +50,361 @@
 </style>
 </head>
 <body>
+  <!-- Immediate diagnostic script -->
+  <script>
+    // Run immediately to check if we're on GitHub 404
+    (function() {
+      var isGitHub404 = false;
+      var pageText = document.body ? document.body.innerText : '';
+      var htmlText = document.body ? document.body.innerHTML : '';
+      
+      // Check for GitHub 404 indicators - more comprehensive list
+      var github404Indicators = [
+        '404',
+        'This is not the web page you are looking for',
+        'There isn\'t a GitHub Pages site here',
+        'Page not found',
+        'github.io/404',
+        'GitHub Pages',
+        'If you\'re trying to publish one',
+        'Check your address bar'
+      ];
+      
+      for (var i = 0; i < github404Indicators.length; i++) {
+        if (document.title.includes(github404Indicators[i]) || 
+            pageText.includes(github404Indicators[i]) ||
+            htmlText.includes(github404Indicators[i])) {
+          isGitHub404 = true;
+          break;
+        }
+      }
+      
+      // If we're on GitHub Pages domain and see 404, show help immediately
+      if (isGitHub404 && window.location.hostname.includes('github.io')) {
+        document.body.innerHTML = `
+          <div style="padding: 40px; font-family: Arial, sans-serif; background: black; color: white; min-height: 100vh;">
+            <h1>🚨 GitHub Pages Setup Required</h1>
+            <p>You're seeing GitHub's 404 page because:</p>
+            <ol>
+              <li>GitHub Pages is not enabled for this repository, OR</li>
+              <li>The repository name or username is incorrect in the URL</li>
+            </ol>
+            <p><strong>Your correct GitHub Pages URL should be:</strong><br>
+            <code style="background: #333; padding: 10px; display: inline-block; margin: 10px 0;">https://x2fdx.github.io/goosiecaboosy/</code></p>
+            <p><a href="https://github.com/x2fdx/goosiecaboosy/settings/pages" target="_blank" style="color: #4fc3f7;">Click here to enable GitHub Pages</a></p>
+            <p>If you still get 404, make sure you have uploaded:<br>
+            - <code>index.html</code> (this file)<br>
+            - <code>running_goose.gif</code> (the animated goose)<br>
+            to your repository root.</p>
+            <div style="margin-top: 30px; padding: 15px; background: #222; border-radius: 5px;">
+              <h3>📋 Quick Checklist:</h3>
+              <ol>
+                <li><strong>Enable GitHub Pages:</strong> Go to <a href="https://github.com/x2fdx/goosiecaboosy/settings/pages" style="color: #4fc3f7;">Settings → Pages</a></li>
+                <li><strong>Select source:</strong> Branch: <code>main</code>, Folder: <code>/ (root)</code></li>
+                <li><strong>Click Save</strong> and wait 2-5 minutes</li>
+                <li><strong>Test:</strong> Open <a href="https://x2fdx.github.io/goosiecaboosy/" style="color: #4fc3f7;">your site</a></li>
+              </ol>
+            </div>
+            <div style="margin-top: 20px; padding: 10px; background: #333; border-left: 4px solid #4fc3f7;">
+              <strong>Debug Info:</strong><br>
+              URL: ${window.location.href}<br>
+              Hostname: ${window.location.hostname}<br>
+              Repository files should be at: https://github.com/x2fdx/goosiecaboosy
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #111; border-radius: 5px;">
+              <h4>Still having issues? Try:</h4>
+              <ul>
+                <li><strong>Check repository name:</strong> Is it exactly "goosiecaboosy"? Case matters!</li>
+                <li><strong>Check username:</strong> Is your GitHub username exactly "x2fdx"?</li>
+                <li><strong>Wait longer:</strong> First deployment can take 5-10 minutes</li>
+                <li><strong>Test direct file access:</strong><br>
+                  <a href="https://x2fdx.github.io/goosiecaboosy/index.html" style="color: #4fc3f7;">Test index.html</a><br>
+                  <a href="https://x2fdx.github.io/goosiecaboosy/running_goose.gif" style="color: #4fc3f7;">Test running_goose.gif</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        `;
+        return; // Stop execution here
+      }
+      
+      // If we're NOT on GitHub Pages but seeing 404, still show help
+      if (isGitHub404) {
+        document.body.innerHTML = `
+          <div style="padding: 40px; font-family: Arial, sans-serif; background: black; color: white; min-height: 100vh;">
+            <h1>⚠️ Page Not Found (404)</h1>
+            <p>You're seeing a 404 page. This might be because:</p>
+            <ol>
+              <li>The file <code>index.html</code> is not in the correct location</li>
+              <li>You're accessing the wrong URL</li>
+            </ol>
+            <p><strong>If using GitHub Pages:</strong><br>
+            Your URL should be: <code>https://x2fdx.github.io/goosiecaboosy/</code></p>
+            <p><strong>If testing locally:</strong><br>
+            Make sure <code>index.html</code> and <code>running_goose.gif</code> are in the same folder.</p>
+          </div>
+        `;
+      }
+    })();
+  </script>
 
   <div id="pot">
     <img id="running-goose" src="running_goose.gif" alt="Running Goose">
   </div>
 
-<script>
-  // GIF animation works automatically - no JavaScript needed!
-</script>
+  <!-- Enhanced Debug overlay -->
+  <div id="debug" style="position: fixed; top: 10px; left: 10px; color: white; font-family: Arial, sans-serif; font-size: 12px; background: rgba(0,0,0,0.95); padding: 10px; border-radius: 3px; z-index: 1000; display: block; border: 2px solid #444; max-width: 500px;">
+    <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px; color: #4fc3f7;">🦆 Running Goose Debug - GitHub Pages</div>
+    <div><strong>Page Status:</strong> <span id="status" style="font-weight: bold;">Checking...</span></div>
+    <div><strong>Error Details:</strong> <span id="error">None</span></div>
+    <div><strong>GitHub Pages:</strong> <span id="gh-status">Checking...</span></div>
+    <div><strong>Files in Repository:</strong> <span id="files-status">Checking...</span></div>
+    <div><strong>Your URL:</strong> <span id="url-display" style="font-size: 10px; word-break: break-all;">Loading...</span></div>
+    <div style="margin-top: 8px; font-size: 10px; color: #aaa;">
+      This overlay shows detailed info. Click to hide: 
+      <a href="javascript:void(0)" onclick="document.getElementById('debug').style.display='none'" style="color: #888; margin-left: 5px;">[Hide]</a>
+    </div>
+  </div>
+  
+  <!-- Enhanced GitHub Pages Help -->
+  <div id="github-help" style="position: fixed; bottom: 10px; right: 10px; color: #aaa; font-family: Arial, sans-serif; font-size: 10px; opacity: 0.9;">
+    <div style="background: rgba(0,0,0,0.9); padding: 8px; border-radius: 4px; max-width: 400px;">
+      <strong>Your GitHub Pages URL:</strong><br>
+      <a href="https://x2fdx.github.io/goosiecaboosy/" target="_blank" style="color: #4fc3f7; text-decoration: none; word-break: break-all;">https://x2fdx.github.io/goosiecaboosy/</a><br>
+      <small>Share this link for OBS Browser Source</small>
+      <div style="margin-top: 5px; font-size: 10px; color: #aaa;">
+        <a href="javascript:void(0)" onclick="showDetailedHelp()" style="color: #888; text-decoration: none;">Setup Help</a> | 
+        <a href="javascript:void(0)" onclick="checkFiles()" style="color: #888; text-decoration: none;">Check Files</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Enhanced debugging system
+    document.addEventListener('DOMContentLoaded', function() {
+      updateStatus('Checking GitHub Pages...');
+    });
+
+    window.addEventListener('load', function() {
+      var image = document.getElementById('running-goose');
+      var debug = document.getElementById('debug');
+      var status = document.getElementById('status');
+      var error = document.getElementById('error');
+      var ghStatus = document.getElementById('gh-status');
+      var filesStatus = document.getElementById('files-status');
+      var urlDisplay = document.getElementById('url-display');
+      var githubHelp = document.getElementById('github-help');
+      
+      // Update URL display
+      urlDisplay.textContent = window.location.href;
+      
+      // Update GitHub Pages status
+      if (window.location.hostname.includes('github.io')) {
+        ghStatus.textContent = 'On GitHub Pages ✓';
+        ghStatus.style.color = '#4fc3f7';
+      } else {
+        ghStatus.textContent = 'Local Testing';
+        ghStatus.style.color = '#aaa';
+      }
+      
+      function updateStatus(text, err) {
+        status.textContent = text;
+        if (err) {
+          error.textContent = err;
+          error.style.color = '#f44336';
+        }
+        document.title = text;
+      }
+      
+      // Function to check which files exist
+      function checkFiles() {
+        updateStatus('Checking repository files...');
+        filesStatus.textContent = 'Testing...';
+        
+        var testFiles = ['running_goose.gif', 'goosiecaboosy', 'index.html'];
+        var results = [];
+        
+        function testFile(file, callback) {
+          var img = new Image();
+          img.onload = function() { callback(file, true); };
+          img.onerror = function() { callback(file, false); };
+          img.src = file + '?t=' + new Date().getTime(); // Cache bust
+        }
+        
+        var filesTested = 0;
+        function fileChecked(file, exists) {
+          results.push({file: file, exists: exists});
+          filesTested++;
+          
+          if (filesTested === testFiles.length) {
+            var foundFiles = results.filter(r => r.exists).map(r => r.file);
+            var missingFiles = results.filter(r => !r.exists).map(r => r.file);
+            
+            filesStatus.innerHTML = 'Found: ' + (foundFiles.length > 0 ? '<strong>' + foundFiles.join(', ') + '</strong>' : 'None') + 
+                                   '<br>Missing: ' + (missingFiles.length > 0 ? '<strong style="color:#f44336">' + missingFiles.join(', ') + '</strong>' : 'None');
+            
+            // If running_goose.gif is missing but goosiecaboosy exists
+            var gifMissing = missingFiles.includes('running_goose.gif');
+            var altExists = foundFiles.includes('goosiecaboosy');
+            
+            if (gifMissing && altExists) {
+              updateStatus('Using alternative file: goosiecaboosy');
+              image.src = 'goosiecaboosy';
+              image.alt = 'Running Goose (wrong filename)';
+              showRenameHelp();
+            } else if (gifMissing && !altExists) {
+              updateStatus('GIF missing', 'running_goose.gif not found in repository');
+              showUploadHelp();
+            }
+          }
+        }
+        
+        testFiles.forEach(function(file) {
+          testFile(file, fileChecked);
+        });
+      }
+      
+      // Show rename help
+      function showRenameHelp() {
+        var helpDiv = document.getElementById('github-help');
+        helpDiv.innerHTML = `
+          <div style="background: rgba(0,0,0,0.95); padding: 15px; border-radius: 5px; max-width: 500px;">
+            <h3 style="margin-top: 0; color: #fff; font-size: 16px;">🦆 Fix Filename Issue</h3>
+            <p style="color: #ccc;"><strong>Current:</strong> Using <code>goosiecaboosy</code><br>
+            <strong>Should be:</strong> <code>running_goose.gif</code></p>
+            
+            <p style="color: #ccc;"><strong>To fix:</strong></p>
+            <ol style="padding-left: 20px; color: #ccc; font-size: 12px;">
+              <li>Go to: <a href="https://github.com/x2fdx/goosiecaboosy" target="_blank" style="color: #4fc3f7;">Your Repository</a></li>
+              <li>Click on <code>goosiecaboosy</code></li>
+              <li>Click <strong>Edit</strong> (pencil icon)</li>
+              <li>Change filename to: <code>running_goose.gif</code></li>
+              <li>Click <strong>Commit changes</strong></li>
+              <li>Wait 1 minute, then refresh</li>
+            </ol>
+            
+            <div style="text-align: right; margin-top: 10px;">
+              <button onclick="showDefaultHelp()" style="background: #555; color: white; border: none; padding: 5px 15px; border-radius: 3px; cursor: pointer;">Close</button>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Show upload help
+      function showUploadHelp() {
+        var helpDiv = document.getElementById('github-help');
+        helpDiv.innerHTML = `
+          <div style="background: rgba(0,0,0,0.95); padding: 15px; border-radius: 5px; max-width: 500px;">
+            <h3 style="margin-top: 0; color: #fff; font-size: 16px;">⚠️ GIF File Missing</h3>
+            <p style="color: #ccc;">The file <code>running_goose.gif</code> is not in your repository.</p>
+            
+            <p style="color: #ccc;"><strong>To fix:</strong></p>
+            <ol style="padding-left: 20px; color: #ccc; font-size: 12px;">
+              <li>Go to: <a href="https://github.com/x2fdx/goosiecaboosy/upload/main" target="_blank" style="color: #4fc3f7;">GitHub Upload</a></li>
+              <li>Drag & drop your <code>running_goose.gif</code> file</li>
+              <li>Click <strong>Commit changes</strong></li>
+              <li>Wait 1 minute, then refresh</li>
+            </ol>
+            
+            <p style="color: #ccc; font-size: 11px; margin-top: 10px;">
+              <strong>Test after upload:</strong><br>
+              <a href="https://x2fdx.github.io/goosiecaboosy/running_goose.gif" target="_blank" style="color: #4fc3f7;">Check if GIF loads</a>
+            </p>
+            
+            <div style="text-align: right; margin-top: 10px;">
+              <button onclick="showDefaultHelp()" style="background: #555; color: white; border: none; padding: 5px 15px; border-radius: 3px; cursor: pointer;">Close</button>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Show default help
+      function showDefaultHelp() {
+        var helpDiv = document.getElementById('github-help');
+        helpDiv.innerHTML = `
+          <div style="background: rgba(0,0,0,0.9); padding: 8px; border-radius: 4px; max-width: 400px;">
+            <strong>Your GitHub Pages URL:</strong><br>
+            <a href="https://x2fdx.github.io/goosiecaboosy/" target="_blank" style="color: #4fc3f7; text-decoration: none; word-break: break-all;">https://x2fdx.github.io/goosiecaboosy/</a><br>
+            <small>Share this link for OBS Browser Source</small>
+            <div style="margin-top: 5px; font-size: 10px; color: #aaa;">
+              <a href="javascript:void(0)" onclick="showDetailedHelp()" style="color: #888; text-decoration: none;">Setup Help</a> | 
+              <a href="javascript:void(0)" onclick="checkFiles()" style="color: #888; text-decoration: none;">Check Files</a>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Detailed help
+      function showDetailedHelp() {
+        var helpDiv = document.getElementById('github-help');
+        helpDiv.innerHTML = `
+          <div style="background: rgba(0,0,0,0.95); padding: 15px; border-radius: 5px; max-width: 500px;">
+            <h3 style="margin-top: 0; color: #fff; font-size: 16px;">GitHub Pages Setup</h3>
+            <p style="color: #ccc;"><strong>Your URL:</strong> <a href="https://x2fdx.github.io/goosiecaboosy/" target="_blank" style="color: #4fc3f7;">https://x2fdx.github.io/goosiecaboosy/</a></p>
+            
+            <p style="color: #ccc;"><strong>If getting 404:</strong></p>
+            <ol style="padding-left: 20px; color: #ccc; font-size: 12px;">
+              <li>Enable GitHub Pages: <a href="https://github.com/x2fdx/goosiecaboosy/settings/pages" target="_blank" style="color: #4fc3f7;">Settings → Pages</a></li>
+              <li>Select: Branch <code>main</code>, Folder <code>/ (root)</code></li>
+              <li>Click <strong>Save</strong>, wait 5 minutes</li>
+              <li>Make sure both files are in repository</li>
+              <li>Test: <a href="https://x2fdx.github.io/goosiecaboosy/" target="_blank" style="color: #4fc3f7;">Open your site</a></li>
+            </ol>
+            
+            <p style="color: #ccc; font-size: 11px; margin-top: 10px;">
+              <strong>Required files:</strong> <code>index.html</code> and <code>running_goose.gif</code><br>
+              <strong>Test links:</strong><br>
+              • <a href="https://x2fdx.github.io/goosiecaboosy/index.html" target="_blank" style="color: #4fc3f7;">Test index.html</a><br>
+              • <a href="https://x2fdx.github.io/goosiecaboosy/running_goose.gif" target="_blank" style="color: #4fc3f7;">Test running_goose.gif</a>
+            </p>
+            
+            <div style="text-align: right; margin-top: 10px;">
+              <button onclick="showDefaultHelp()" style="background: #555; color: white; border: none; padding: 5px 15px; border-radius: 3px; cursor: pointer;">Close</button>
+            </div>
+          </div>
+        `;
+      }
+      
+      // Image load success
+      image.addEventListener('load', function() {
+        var usingAlt = image.src.includes('goosiecaboosy');
+        if (usingAlt) {
+          updateStatus('GIF Playing! (wrong filename)');
+          filesStatus.innerHTML = 'Found: <strong>goosiecaboosy</strong><br>Missing: <strong style="color:#ff9800">running_goose.gif</strong>';
+          showRenameHelp();
+        } else {
+          updateStatus('GIF Playing! ✓');
+          filesStatus.innerHTML = 'Found: <strong>running_goose.gif</strong> ✓';
+          filesStatus.style.color = '#4caf50';
+          // Auto-hide debug after success
+          setTimeout(() => {
+            debug.style.display = 'none';
+          }, 3000);
+        }
+      });
+      
+      // Image load error
+      image.addEventListener('error', function() {
+        updateStatus('GIF failed to load', 'File not found or error loading');
+        
+        // Check what files exist
+        checkFiles();
+        
+        // If we're on GitHub Pages, show upload help
+        if (window.location.hostname.includes('github.io')) {
+          showUploadHelp();
+        }
+      });
+      
+      // Initial file check
+      checkFiles();
+      
+      // Make functions globally available
+      window.checkFiles = checkFiles;
+      window.showDetailedHelp = showDetailedHelp;
+      window.showDefaultHelp = showDefaultHelp;
+    });
+  </script>
 
 </body>
 </html>
